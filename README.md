@@ -4,11 +4,11 @@ CHIP Webcam
 
 # Author
 
-This project has been developed by [Mario Pérez Esteso](http://github.com/marioperezesteso "Mario Pérez Esteso").
+This project has been developed by [John P. Masseria](http://github.com/HeatfanJohn "John P. Masseria").
  
  
 # Screenshot
-![CHIP Monitoring Panel](https://raw.githubusercontent.com/helgasoft/CHIP-Status/master/chip-status.png "CHIP Monitoring Panel")
+![CHIP Webcam](https://raw.githubusercontent.com/heatfanjohn/ChipWebcam/master/chip-webcam.png "CHIP Webcam")
 
 # How to install
 
@@ -26,7 +26,6 @@ cd ChipWebcam			# your Git folder
 shopt -s extglob		# enable name exclusion
 cp !(*git*) /var/www/html/chip/	# copy non-Git files from Git folder to web folder
 cd /var/www/html/chip		
-npm install socket.io   	# will create a subfolder "node_modules"
 ~~~
 **Run**
 ~~~
@@ -34,7 +33,7 @@ sudo DEBUG=-* nodejs webcam.js	# run without debugging
 ~~~
 **Result**
 
-Open a browser with your CHIP's IP on port 8000. For example: [http://192.168.1.100:8000](http://192.168.1.100:8000)
+Open a browser with your CHIP's IP on port 8080. For example: [http://192.168.1.100:8080](http://192.168.1.100:8080)
 
 **Run as a service (optional)**
 
@@ -65,4 +64,4 @@ limitations under the License.
 
 # More info
 
-For more details, please visit: [Geeky Theory](http://geekytheory.com/panel-de-monitorizacion-para-raspberry-pi-con-node-js/ "Geeky Theory")
+For more details, please visit: [Masseria.org](http://Masseria.org)
