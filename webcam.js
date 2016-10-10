@@ -4,6 +4,7 @@
 
 // Limit concurrent camera access 
 var sem = require('semaphore')(1);
+var uuid = require('uuid');
 
 var port = 8080;
 var 
@@ -16,11 +17,11 @@ var
 
 function handler(req, res) {
     var
-    fileName = path.basename(req.url) || 'index.html',
-    ext = path.extname(fileName),
-    localFolder = __dirname + '/',
-    //localFolder = __dirname + '/public/',
-    page404 = localFolder + '404.html';
+        fileName = path.basename(req.url) || 'index.html',
+        ext = path.extname(fileName),
+        localFolder = __dirname + '/',
+        //localFolder = __dirname + '/public/',
+        page404 = localFolder + '404.html';
  
     //do we support the requested file type?
     if(!extensions[ext]){
@@ -31,14 +32,18 @@ function handler(req, res) {
 
     if( fileName.toLowerCase() == 'snap.jpg' ) {
         sem.take(function() {
-            child = exec('../uvccapture/uvccapture -osnap.jpg -x1024 -y768 -j5 -m -c./decorate.sh', function (error, stdout, stderr) {
+            var fname = uuid.v4(); // Get a random filename
+            child = exec('../uvccapture/uvccapture -o/tmp/' + fname + ' -x640 -y480 -j5 -m -c./decorate.sh', function (error, stdout, stderr) {
                 if (error !== null) {
                     console.log('kernel exec error: ' + error);
                 } else {
-                    //getFile((localFolder + fileName.toLowerCase()), res, page404, extensions[ext]);
-                    getFile((localFolder + 'webcam.jpg'), res, page404, extensions[ext]);
+                    getFile(('/tmp/' + fname + '.jpg'), res, page404, extensions[ext]);
                 }; 
-                sem.leave();
+                child = exec('rm /tmp/' + fname + '*', function (error, stdout, stderr) {
+                    if (error !== null)
+                        console.log('rm error: ' + error);
+                    sem.leave();
+                });
             });
         });
     } else { 

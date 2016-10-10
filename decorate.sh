@@ -6,10 +6,12 @@
 #
 SOURCE=$1
  
-TEMP=/tmp/webcam.jpg
+#TEMP=/tmp/webcam.jpg
+TEMP=$1.tmp
 TEMP_THUMB=/tmp/webcam_t.jpg
 #DEST=/var/www/webcam.jpg
-DEST=./webcam.jpg
+#DEST=./webcam.jpg
+DEST=$1.jpg
 DEST_THUMB=/var/www/webcam_t.jpg
  
 convert $SOURCE \
