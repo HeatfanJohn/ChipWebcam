@@ -81,7 +81,7 @@ function getFile(filePath, res, page404, mimeType){
                     });
                     res.end(contents);
                 } else
-                    console.dir(err);  //for our own troubleshooting
+                    console.dir('getFile: ' + err);  //for our own troubleshooting
             });
         } else {
             //if the requested file was not found serve-up our custom 404 page
@@ -91,7 +91,7 @@ function getFile(filePath, res, page404, mimeType){
                     res.writeHead(404, {'Content-Type': 'text/html'});
                     res.end(contents);
                 } else
-                    console.dir(err);  //for our own troubleshooting
+                    console.dir('getFile: ' + err);  //for our own troubleshooting
             });
         };
     });
