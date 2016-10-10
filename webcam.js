@@ -1,6 +1,10 @@
 /**
  * Autor: John P. Masseria (john@masseria.org)
  */
+
+// Limit concurrent camera access 
+var sem = require('semaphore')(1);
+
 var port = 8080;
 var 
     app = require('http').createServer(handler).listen(port, "0.0.0.0"),
@@ -26,13 +30,16 @@ function handler(req, res) {
     };
 
     if( fileName.toLowerCase() == 'snap.jpg' ) {
-        child = exec('../uvccapture/uvccapture -osnap.jpg -x1024 -y768 -m -c./decorate.sh', function (error, stdout, stderr) {
-            if (error !== null) {
-                console.log('kernel exec error: ' + error);
-            } else {
-                //getFile((localFolder + fileName.toLowerCase()), res, page404, extensions[ext]);
-                getFile((localFolder + 'webcam.jpg'), res, page404, extensions[ext]);
-            };
+        sem.take(function() {
+            child = exec('../uvccapture/uvccapture -osnap.jpg -x1024 -y768 -j5 -m -c./decorate.sh', function (error, stdout, stderr) {
+                if (error !== null) {
+                    console.log('kernel exec error: ' + error);
+                } else {
+                    //getFile((localFolder + fileName.toLowerCase()), res, page404, extensions[ext]);
+                    getFile((localFolder + 'webcam.jpg'), res, page404, extensions[ext]);
+                }; 
+                sem.leave();
+            });
         });
     } else { 
         //call our helper function
