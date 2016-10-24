@@ -69,8 +69,8 @@ extensions = {
 
 //helper function handles file verification
 function getFileSync(filePath, res, mimeType){
-    //read the file
-    contents = fs.readFile(filePath);
+    //read the file using synchronous I/O
+    var contents = fs.readFileSync(filePath);
     //send the contents with the default 200/ok header
     res.writeHead(200,{
         "Content-type" : mimeType,
