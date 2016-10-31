@@ -4,7 +4,7 @@ Description=Chip Webcam
 [Service]
 Type=simple
 ExecStart=/usr/bin/nodejs /var/www/html/chip/webcam.js
-Restart=always
+Restart=no
 RestartSec=2
 StandardOutput=syslog
 SyslogIdentifier=server

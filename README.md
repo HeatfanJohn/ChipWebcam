@@ -20,8 +20,9 @@ sudo apt-get install nodejs npm git
 git clone https://github.com/HeatfanJohn/ChipWebcam.git
 ~~~
 **Install web pages/modules**
-~~~ 
-mkdir /var/www/html/chip	# create your web folder for the application, could be anywhere
+~~~
+sudo mkdir -p /var/www/html/chip    # create your web folder for the application, could be anywhere
+sudo chown chip.chip /var/www/html/chip/
 cd ChipWebcam			# your Git folder
 shopt -s extglob		# enable name exclusion
 cp !(*git*) /var/www/html/chip/	# copy non-Git files from Git folder to web folder
@@ -39,10 +40,10 @@ Open a browser with your CHIP's IP on port 8080. For example: [http://192.168.1.
 
 ~~~
 nano /var/www/html/chip/ChipWebcam.service	# edit ExecStart & WorkingDirectory with your path
-mv /var/www/html/chip/ChipWebcam.service /etc/systemd/system/	# move to services folder
-systemctl daemon-reload		
-systemctl start ChipWebcam.service
-systemctl status ChipWebcam.service		# confirm service is running
+sudo mv /var/www/html/chip/ChipWebcam.service /etc/systemd/system/	# move to services folder
+sudo systemctl daemon-reload		
+sudo systemctl start ChipWebcam.service
+sudo systemctl status ChipWebcam.service	# confirm service is running
 ~~~
 
 # License
