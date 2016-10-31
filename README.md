@@ -26,7 +26,12 @@ sudo chown chip.chip /var/www/html/chip/
 cd ChipWebcam			# your Git folder
 shopt -s extglob		# enable name exclusion
 cp !(*git*) /var/www/html/chip/	# copy non-Git files from Git folder to web folder
-cd /var/www/html/chip		
+cd /var/www/html/chip
+
+# Install required node modules
+
+sudo npm install -g semaphore
+sudo npm install -g uuid
 ~~~
 **Run**
 ~~~
