@@ -32,6 +32,12 @@ cp !(*git*) /var/www/html/chip/	# copy non-Git files from Git folder to web fold
 cd /var/www/html/chip
 npm install semaphore
 npm install uuid
+
+This project also requires project uvccapture which you install as follows:
+
+get clone git@github.com:HeatfanJohn/uvccapture.git
+cd uvccapture
+make
 ~~~
 **Run**
 ~~~
