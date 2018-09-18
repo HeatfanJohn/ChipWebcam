@@ -26,16 +26,17 @@ sudo chown chip.chip /var/www/html/chip/
 cd ChipWebcam			# your Git folder
 shopt -s extglob		# enable name exclusion
 cp !(*git*) /var/www/html/chip/	# copy non-Git files from Git folder to web folder
+
+# Install required node modules into working directory
+
 cd /var/www/html/chip
-
-# Install required node modules
-
-sudo npm install -g semaphore
-sudo npm install -g uuid
+npm install semaphore
+npm install uuid
 ~~~
 **Run**
 ~~~
-sudo DEBUG=-* nodejs webcam.js	# run without debugging
+cd /var/www/html/chip
+DEBUG=-* nodejs webcam.js	# run without debugging
 ~~~
 **Result**
 
