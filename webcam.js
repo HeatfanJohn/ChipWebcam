@@ -33,10 +33,12 @@ function handler(req, res) {
     if( fileName.toLowerCase() == 'snap.jpg' ) {
         sem.take(function() {
             var fname = uuid.v4(); // Get a random filename
-            child = exec('../uvccapture/uvccapture -o/tmp/' + fname + ' -x640 -y480 -j5 -m -c./decorate.sh', function (error, stdout, stderr) {
+            child = exec('/home/chip/uvccapture/uvccapture -o/tmp/' + fname + ' -x1280 -y720 -j2 -vvv -m -c./decorate.sh', function (error, stdout, stderr) {
                 if (error !== null) {
                     console.log('kernel exec error: ' + error);
                 } else {
+                    console.log('exec stdout: ' + stdout);
+                    console.log('exec stderr: ' + stderr);
                     // Use synchronous I/O to read image
                     getFileSync(('/tmp/' + fname + '.jpg'), res, extensions['jpg']);
                 };
