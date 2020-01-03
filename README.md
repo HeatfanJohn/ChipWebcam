@@ -16,7 +16,7 @@ This project has been developed by [John P. Masseria](http://github.com/HeatfanJ
 ~~~ 
 sudo apt-get update 
 sudo apt-get upgrade
-sudo apt-get install nodejs npm git
+sudo apt-get install nodejs npm git imagemagick
 git clone https://github.com/HeatfanJohn/ChipWebcam.git
 ~~~
 **Install web pages/modules**
@@ -35,7 +35,8 @@ npm install uuid
 
 This project also requires project uvccapture which you install as follows:
 
-get clone git@github.com:HeatfanJohn/uvccapture.git
+cd ~
+git clone https://github.com/HeatfanJohn/uvccapture.git
 cd uvccapture
 make
 ~~~
