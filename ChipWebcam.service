@@ -3,16 +3,16 @@ Description=Chip Webcam
 
 [Service]
 Type=simple
-ExecStart=/usr/bin/nodejs /var/www/html/chip/webcam.js
+ExecStart=/usr/bin/nodejs /var/www/webcam/webcam.js
 Restart=no
 RestartSec=2
 StandardOutput=syslog
 SyslogIdentifier=server
 Environment=PATH=/usr/bin:/usr/local/bin:/usr/sbin:/bin
-WorkingDirectory=/var/www/html/chip
+WorkingDirectory=/var/www/webcam
 # do this first: sudo adduser chip i2c
-User=chip
-Group=chip
+User=pi
+Group=pi
 
 [Install]
 WantedBy=multi-user.target

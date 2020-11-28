@@ -31,16 +31,18 @@ function handler(req, res) {
     };
 
     if( fileName.toLowerCase() == 'snap.jpg' ) {
+        console.log('snap.jpg requested');
         sem.take(function() {
             var fname = uuid.v4(); // Get a random filename
-            child = exec('/home/chip/uvccapture/uvccapture -o/tmp/' + fname + ' -x1280 -y720 -j2 -vvv -m -c./decorate.sh', function (error, stdout, stderr) {
+            // child = exec('/home/chip/uvccapture/uvccapture -o/tmp/' + fname + ' -x1280 -y720 -j2 -vvv -m -c./decorate.sh', function (error, stdout, stderr) {
+            child = exec('raspistill -t 10 -md 3 -bm -ex off -ag 1 -ISO 800 -st -ss 10000000 -a 1052 -o /tmp/' + fname + '.jpg -v', function (error, stdout, stderr) {
                 if (error !== null) {
                     console.log('kernel exec error: ' + error);
                 } else {
                     console.log('exec stdout: ' + stdout);
                     console.log('exec stderr: ' + stderr);
                     // Use synchronous I/O to read image
-                    getFileSync(('/tmp/' + fname + '.jpg'), res, extensions['jpg']);
+                    getFileSync(('/tmp/' + fname + '.jpg'), res, extensions['.jpg']);
                 };
                 child = exec('rm /tmp/' + fname + '*', function (error, stdout, stderr) {
                     if (error !== null)
@@ -72,7 +74,10 @@ extensions = {
 //helper function handles file verification
 function getFileSync(filePath, res, mimeType){
     //read the file using synchronous I/O
+    console.log('Reading file: ' + filePath);
     var contents = fs.readFileSync(filePath);
+    console.log('Read ' + contents.length + ' bytes');
+
     //send the contents with the default 200/ok header
     res.writeHead(200,{
         "Content-type" : mimeType,
