@@ -13,11 +13,14 @@ var
     fs = require('fs'),
     sys = require('util'),
     exec = require('child_process').exec,
+    url = require('url'),
     child, child1;
 
 function handler(req, res) {
+    const myURL = url.parse(req.url);
+    const queryObject = myURL.searchParams;
     var
-        fileName = path.basename(req.url) || 'index.html',
+        fileName = path.basename(myURL.pathname) || 'index.html',
         ext = path.extname(fileName),
         localFolder = __dirname + '/',
         //localFolder = __dirname + '/public/',
@@ -31,11 +34,11 @@ function handler(req, res) {
     };
 
     if( fileName.toLowerCase() == 'snap.jpg' ) {
-        console.log('snap.jpg requested');
+        console.log('snap.jpg requested\n' + 'queryObject = \'' + queryObject + '\'');
         sem.take(function() {
             var fname = uuid.v4(); // Get a random filename
             // child = exec('/home/chip/uvccapture/uvccapture -o/tmp/' + fname + ' -x1280 -y720 -j2 -vvv -m -c./decorate.sh', function (error, stdout, stderr) {
-            child = exec('raspistill -t 10 -md 3 -bm -ex off -ag 1 -ISO 800 -st -ss 10000000 -a 1052 -o /tmp/' + fname + '.jpg -v', function (error, stdout, stderr) {
+            child = exec('raspistill -t 10 -md 3 -bm -ex off -ag 1 -ISO 800 -st -ss 2000000 -a 1052 -o /tmp/' + fname + '.jpg -v', function (error, stdout, stderr) {
                 if (error !== null) {
                     console.log('kernel exec error: ' + error);
                 } else {
