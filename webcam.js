@@ -6,6 +6,31 @@
 var sem = require('semaphore')(1);
 var uuid = require('uuid');
 
+// These are the only file types we will support
+extensions = {
+    ".html": "text/html",
+    ".css" : "text/css",
+    ".js"  : "application/javascript",
+    ".png" : "image/png",
+    ".gif" : "image/gif",
+    ".jpg" : "image/jpeg",
+    ".ico" : "image/x-icon"
+};
+
+// Raspivid default options: -t 10 -md 3 -bm -ex off -ag 1 -ISO 800 -st -ss 2000000 -a 1052
+raspiOptions = {
+    "t":    "10",
+    "v":    true,
+    "md":   "3",
+    "bm":   true,
+    "ex":   "off",
+    "ag":   "1",
+    "ISO":  "800",
+    "st":   true,
+    "ss":   "1000000",
+    "a":    "1052"
+};
+
 var port = 8080;
 var
     app = require('http').createServer(handler).listen(port, "0.0.0.0"),
@@ -36,9 +61,25 @@ function handler(req, res) {
     if( fileName.toLowerCase() == 'snap.jpg' ) {
         console.log('snap.jpg requested\n' + 'queryObject = \'' + queryObject + '\'');
         sem.take(function() {
-            var fname = uuid.v4(); // Get a random filename
+            let fname = uuid.v4();  // Get a random filename
             // child = exec('/home/chip/uvccapture/uvccapture -o/tmp/' + fname + ' -x1280 -y720 -j2 -vvv -m -c./decorate.sh', function (error, stdout, stderr) {
-            child = exec('raspistill -t 10 -md 3 -bm -ex off -ag 1 -ISO 800 -st -ss 2000000 -a 1052 -o /tmp/' + fname + '.jpg -v', function (error, stdout, stderr) {
+            let cmd ='raspistill '; // -t 10 -v -md 3 -bm -ex off -ag 1 -ISO 800 -st -ss 2000000 -a 1052
+
+            for (option in raspiOptions) {
+                switch (typeof raspiOptions[option]) {
+                    case 'boolean':
+                        if (raspiOptions[option] == true) {
+                            cmd += ' -' + raspiOptions[option];
+                        }
+                        break;
+                    case 'string':
+                        cmd += ' -' + option + ' ' + raspiOptions[option];
+                        break;
+                }
+            }
+            cmd += ' -o /tmp/' + fname + '.jpg';
+            console.log('execute: ' + cmd);
+            child = exec(cmd, function (error, stdout, stderr) {
                 if (error !== null) {
                     console.log('kernel exec error: ' + error);
                 } else {
@@ -61,17 +102,6 @@ function handler(req, res) {
         //in case the requestd file is not found
         getFile((localFolder + fileName), res, page404, extensions[ext]);
     };
-};
-
-//these are the only file types we will support
-extensions = {
-    ".html": "text/html",
-    ".css" : "text/css",
-    ".js"  : "application/javascript",
-    ".png" : "image/png",
-    ".gif" : "image/gif",
-    ".jpg" : "image/jpeg",
-    ".ico" : "image/x-icon"
 };
 
 //helper function handles file verification
