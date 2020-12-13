@@ -73,8 +73,8 @@ function handler(req, res) {
                         }
                         break;
                     case 'string':
-                        if (option in queryObject) {
-                            cmd += ' -' + option + ' ' + queryObject[option];
+                        if (queryObject.has(option)) {
+                            cmd += ' -' + option + ' ' + queryObject.get(option);
                         } else {
                             cmd += ' -' + option + ' ' + raspiOptions[option];
                         }
