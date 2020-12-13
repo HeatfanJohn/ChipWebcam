@@ -73,7 +73,11 @@ function handler(req, res) {
                         }
                         break;
                     case 'string':
-                        cmd += ' -' + option + ' ' + raspiOptions[option];
+                        if (option in queryObject) {
+                            cmd += ' -' + option + ' ' + queryObject[option];
+                        } else {
+                            cmd += ' -' + option + ' ' + raspiOptions[option];
+                        }
                         break;
                 }
             }
