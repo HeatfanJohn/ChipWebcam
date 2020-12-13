@@ -18,7 +18,7 @@ var
 
 function handler(req, res) {
     const myURL = url.parse(req.url);
-    const queryObject = myURL.searchParams;
+    const queryObject = new url.URLSearchParams(myURL.search);
     var
         fileName = path.basename(myURL.pathname) || 'index.html',
         ext = path.extname(fileName),
