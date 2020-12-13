@@ -69,7 +69,7 @@ function handler(req, res) {
                 switch (typeof raspiOptions[option]) {
                     case 'boolean':
                         if (raspiOptions[option] == true) {
-                            cmd += ' -' + raspiOptions[option];
+                            cmd += ' -' + option;
                         }
                         break;
                     case 'string':
