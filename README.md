@@ -4,7 +4,7 @@ CHIP Webcam
 
 # Author
 
-This project has been developed by [John P. Masseria](http://github.com/HeatfanJohn "John P. Masseria").
+This project is developed by [John P. Masseria](http://github.com/HeatfanJohn "John P. Masseria").
  
  
 # Screenshot
